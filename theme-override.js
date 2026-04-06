@@ -1,9 +1,26 @@
 /**
- * SculptGlow Pro — Supplement CSS & UI Enhancements
+ * GlowVac Pro — Meta Pixel + CSS & UI Enhancements
  * Injected via Shopify Script Tags API → jsDelivr CDN
  * Theme colors are now native via settings_data.json.
- * This file handles: mobile sticky bar, email popup, polish overrides.
+ * This file handles: Meta Pixel, mobile sticky bar, email popup, polish overrides.
  */
+
+/* ── Meta Pixel ──────────────────────────────────────────────────────────── */
+(function(){
+  if (window.fbq) return;
+  var n = window.fbq = function(){n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments);};
+  if (!window._fbq) window._fbq = n;
+  n.push = n; n.loaded = true; n.version = '2.0';
+  n.queue = [];
+  var t = document.createElement('script');
+  t.async = true; t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(t, s);
+  fbq('init', '1268477758116097');
+  fbq('track', 'PageView');
+})();
+
+/* ── Store Enhancements ──────────────────────────────────────────────────── */
 (function () {
   'use strict';
 
@@ -323,6 +340,50 @@
     });
   }
 
+  // ── Meta Pixel E-Commerce Events ──────────────────────────────────────────
+
+  function initPixelEvents() {
+    if (typeof fbq === 'undefined') return;
+
+    // ViewContent on product pages
+    if (window.location.pathname.indexOf('/products/') !== -1) {
+      var metaEl = document.querySelector('meta[property="og:title"]');
+      var productTitle = metaEl ? metaEl.content : document.title;
+      fbq('track', 'ViewContent', {
+        content_name: productTitle,
+        content_type: 'product',
+        value: 39.99,
+        currency: 'USD'
+      });
+    }
+
+    // AddToCart — listen for form submissions and ATC button clicks
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      if (form && (form.action || '').indexOf('/cart/add') !== -1) {
+        fbq('track', 'AddToCart', {
+          content_name: 'GlowVac Pro',
+          content_type: 'product',
+          value: 39.99,
+          currency: 'USD'
+        });
+      }
+    });
+
+    // InitiateCheckout — listen for checkout button clicks
+    document.addEventListener('click', function(e) {
+      var el = e.target.closest ? e.target.closest('a[href*="/checkout"], button[name="checkout"], .cart__checkout-button') : null;
+      if (el) {
+        fbq('track', 'InitiateCheckout', { value: 39.99, currency: 'USD' });
+      }
+    });
+
+    // Purchase — fires on thank-you page
+    if (window.location.pathname.indexOf('/thank_you') !== -1 || window.location.pathname.indexOf('/orders/') !== -1) {
+      fbq('track', 'Purchase', { value: 39.99, currency: 'USD' });
+    }
+  }
+
   // ── Init ─────────────────────────────────────────────────────────────────
 
   injectCSS();
@@ -331,6 +392,7 @@
     injectCSS();
     initStickyBar();
     initEmailPopup();
+    initPixelEvents();
   });
 
 })();

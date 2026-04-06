@@ -271,7 +271,7 @@
         '<button id="gdp-popup__close" aria-label="Close">\u2715</button>' +
         '<div id="gdp-popup__badge">\u2726 Limited Offer</div>' +
         '<h2 id="gdp-popup__heading">Get <span>10% Off</span><br>Your Galaxy</h2>' +
-        '<p id="gdp-popup__sub">Join 10,000+ galaxy dreamers. Get exclusive deals and your welcome discount straight to your inbox.</p>' +
+        '<p id="gdp-popup__sub">We just launched. Get exclusive deals and your welcome discount straight to your inbox.</p>' +
         '<form id="gdp-popup__form">' +
           '<input id="gdp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
           '<button id="gdp-popup__submit" type="submit">Claim My 10% Off \u2192</button>' +
@@ -317,16 +317,11 @@
     var shown = false;
     function showPopup() { if (shown) return; shown = true; overlay.classList.add('active'); }
 
-    setTimeout(showPopup, 8000);
+    setTimeout(showPopup, 20000);
     document.addEventListener('mouseleave', function(e) {
       if (e.clientY <= window.innerHeight * 0.1) showPopup();
     });
-    var scrollFired = false;
-    window.addEventListener('scroll', function() {
-      if (scrollFired) return;
-      var scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      if (scrolled > 0.6) { scrollFired = true; showPopup(); }
-    }, { passive: true });
+    // Scroll trigger removed — too aggressive for a new store
   }
 
   // ── Init ─────────────────────────────────────────────────────────────────

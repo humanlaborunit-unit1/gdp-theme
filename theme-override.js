@@ -16,7 +16,7 @@
     /* ── Store name: inject brand ── */
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link .h2::before {
-      content: "SculptGlow Pro";
+      content: "GlowVac Pro";
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       letter-spacing: 0.06em !important;
@@ -247,8 +247,8 @@
     var bar = document.createElement('div');
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
-      '<span id="sgp-sticky-bar__title">SculptGlow Pro</span>' +
-      '<span id="sgp-sticky-bar__price">$44.99</span>' +
+      '<span id="sgp-sticky-bar__title">GlowVac Pro</span>' +
+      '<span id="sgp-sticky-bar__price">$39.99</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
 
@@ -270,8 +270,8 @@
       '<div id="sgp-popup">' +
         '<button id="sgp-popup__close" aria-label="Close">\u2715</button>' +
         '<div id="sgp-popup__badge">Limited Launch Offer</div>' +
-        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your SculptGlow Pro</h2>' +
-        '<p id="sgp-popup__sub">Join our community and get your exclusive launch discount. Professional facial sculpting starts here.</p>' +
+        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your GlowVac Pro</h2>' +
+        '<p id="sgp-popup__sub">Join our community and get your exclusive launch discount. Professional pore cleansing starts here.</p>' +
         '<form id="sgp-popup__form">' +
           '<input id="sgp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
           '<button id="sgp-popup__submit" type="submit">Claim My 10% Off \u2192</button>' +

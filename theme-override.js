@@ -378,9 +378,13 @@
       }
     });
 
-    // Purchase — fires on thank-you page
+    // Purchase — fires on thank-you page, reads actual order value
     if (window.location.pathname.indexOf('/thank_you') !== -1 || window.location.pathname.indexOf('/orders/') !== -1) {
-      fbq('track', 'Purchase', { value: 39.99, currency: 'USD' });
+      var orderValue = 39.99;
+      if (window.Shopify && window.Shopify.checkout) {
+        orderValue = parseFloat(window.Shopify.checkout.total_price) || orderValue;
+      }
+      fbq('track', 'Purchase', { value: orderValue, currency: 'USD' });
     }
   }
 

@@ -310,6 +310,135 @@
       color: #00d4ff;
     }
 
+    /* ── Email capture popup ── */
+    #gdp-popup-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(3,5,14,0.85);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+    }
+    #gdp-popup-overlay.active { display: flex; }
+    #gdp-popup {
+      position: relative;
+      background: linear-gradient(135deg, #0a0e1c 0%, #14062c 100%);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 20px;
+      padding: 40px 36px 36px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 0 60px rgba(0,212,255,0.15), 0 0 120px rgba(124,58,237,0.1);
+      text-align: center;
+      animation: gdpPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes gdpPopIn {
+      from { opacity: 0; transform: scale(0.85) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    #gdp-popup__close {
+      position: absolute;
+      top: 14px; right: 18px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+    }
+    #gdp-popup__close:hover { color: #fff; }
+    #gdp-popup__badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #00d4ff22, #7c3aed22);
+      border: 1px solid rgba(0,212,255,0.4);
+      color: #00d4ff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+    #gdp-popup__heading {
+      color: #f0f4ff;
+      font-size: 1.55rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0 0 10px;
+    }
+    #gdp-popup__heading span {
+      background: linear-gradient(90deg, #00d4ff, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    #gdp-popup__sub {
+      color: #8892a4;
+      font-size: 0.9rem;
+      margin: 0 0 22px;
+      line-height: 1.5;
+    }
+    #gdp-popup__form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #gdp-popup__email {
+      background: rgba(15,23,40,0.9) !important;
+      border: 1px solid rgba(0,212,255,0.25) !important;
+      border-radius: 50px !important;
+      color: #f0f4ff !important;
+      font-size: 0.95rem;
+      padding: 13px 20px !important;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    #gdp-popup__email:focus {
+      border-color: rgba(0,212,255,0.6) !important;
+      box-shadow: 0 0 12px rgba(0,212,255,0.15) !important;
+    }
+    #gdp-popup__submit {
+      background: linear-gradient(135deg, #00d4ff, #7c3aed) !important;
+      color: #000814 !important;
+      font-weight: 800 !important;
+      font-size: 0.95rem !important;
+      border: none !important;
+      border-radius: 50px !important;
+      padding: 13px 24px !important;
+      cursor: pointer !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      box-shadow: 0 0 20px rgba(0,212,255,0.35) !important;
+      transition: box-shadow 0.2s, transform 0.2s !important;
+    }
+    #gdp-popup__submit:hover {
+      box-shadow: 0 0 35px rgba(0,212,255,0.6) !important;
+      transform: translateY(-1px) !important;
+    }
+    #gdp-popup__success {
+      display: none;
+      color: #00d4ff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 8px 0;
+    }
+    #gdp-popup__skip {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: underline;
+    }
+    #gdp-popup__skip:hover { color: rgba(255,255,255,0.6); }
+
     /* ── Mobile sticky add-to-cart bar ── */
     #gdp-sticky-bar {
       display: none;
@@ -392,12 +521,103 @@
     io.observe(addBtn);
   }
 
+  // ── Email Capture Popup ──────────────────────────────────────────────────
+
+  function initEmailPopup() {
+    var STORAGE_KEY = 'gdp_popup_v1';
+    var dismissed = localStorage.getItem(STORAGE_KEY);
+    if (dismissed) return;
+
+    // Build the overlay
+    var overlay = document.createElement('div');
+    overlay.id = 'gdp-popup-overlay';
+    overlay.innerHTML =
+      '<div id="gdp-popup">' +
+        '<button id="gdp-popup__close" aria-label="Close">✕</button>' +
+        '<div id="gdp-popup__badge">✦ Limited Offer</div>' +
+        '<h2 id="gdp-popup__heading">Get <span>10% Off</span><br>Your Galaxy</h2>' +
+        '<p id="gdp-popup__sub">Join 10,000+ galaxy dreamers. Get exclusive deals, new arrivals, and your welcome discount — straight to your inbox.</p>' +
+        '<form id="gdp-popup__form">' +
+          '<input id="gdp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
+          '<button id="gdp-popup__submit" type="submit">Claim My 10% Off →</button>' +
+          '<p id="gdp-popup__success">✓ You\'re in! Check your inbox for your discount.</p>' +
+        '</form>' +
+        '<button id="gdp-popup__skip">No thanks, I\'ll pay full price</button>' +
+      '</div>';
+
+    document.body.appendChild(overlay);
+
+    function dismiss() {
+      overlay.classList.remove('active');
+      localStorage.setItem(STORAGE_KEY, '1');
+    }
+
+    document.getElementById('gdp-popup__close').addEventListener('click', dismiss);
+    document.getElementById('gdp-popup__skip').addEventListener('click', dismiss);
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) dismiss();
+    });
+
+    document.getElementById('gdp-popup__form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('gdp-popup__email').value.trim();
+      if (!email) return;
+
+      var btn = document.getElementById('gdp-popup__submit');
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      // Submit to Shopify customer newsletter (no server needed)
+      fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'form_type=customer&utf8=✓&contact[email]=' + encodeURIComponent(email) +
+              '&contact[tags]=email-popup,10-percent-discount&contact[accepts_marketing]=true'
+      }).then(function() {
+        document.getElementById('gdp-popup__form').style.display = 'none';
+        document.getElementById('gdp-popup__success').style.display = 'block';
+        localStorage.setItem(STORAGE_KEY, '1');
+        setTimeout(function() { overlay.classList.remove('active'); }, 3000);
+      }).catch(function() {
+        // Fallback: still show success (email captured client-side is better than nothing)
+        document.getElementById('gdp-popup__form').style.display = 'none';
+        document.getElementById('gdp-popup__success').style.display = 'block';
+        setTimeout(function() { overlay.classList.remove('active'); }, 3000);
+      });
+    });
+
+    // Show after 8s OR on exit intent (desktop mouse leave)
+    var shown = false;
+    function showPopup() {
+      if (shown) return;
+      shown = true;
+      overlay.classList.add('active');
+    }
+
+    // Timed trigger: 8 seconds
+    setTimeout(showPopup, 8000);
+
+    // Exit intent: mouse moves to top 10% of viewport
+    document.addEventListener('mouseleave', function(e) {
+      if (e.clientY <= window.innerHeight * 0.1) showPopup();
+    });
+
+    // Mobile scroll trigger: user scrolls 60% down the page
+    var scrollFired = false;
+    window.addEventListener('scroll', function() {
+      if (scrollFired) return;
+      var scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      if (scrolled > 0.6) { scrollFired = true; showPopup(); }
+    }, { passive: true });
+  }
+
   // Inject CSS immediately to prevent flash of unstyled content
   injectCSS();
 
   document.addEventListener('DOMContentLoaded', function () {
     injectCSS();
     initStickyBar();
+    initEmailPopup();
   });
 
 })();

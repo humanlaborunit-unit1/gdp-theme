@@ -1,5 +1,5 @@
 /**
- * GlowVac Pro — Meta Pixel + CSS & UI Enhancements
+ * Derma Dose Co. — Meta Pixel + CSS & UI Enhancements
  * Injected via Shopify Script Tags API → jsDelivr CDN
  * Theme colors are now native via settings_data.json.
  * This file handles: Meta Pixel, mobile sticky bar, email popup, polish overrides.
@@ -33,7 +33,7 @@
     /* ── Store name: inject brand ── */
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link .h2::before {
-      content: "GlowVac Pro";
+      content: "Derma Dose Co.";
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       letter-spacing: 0.06em !important;
@@ -261,11 +261,16 @@
     if (document.getElementById('sgp-sticky-bar')) return;
 
     var addBtn = document.querySelector('button[name="add"], .product-form__submit');
+    // Detect product name and price from page
+    var metaTitle = document.querySelector('meta[property="og:title"]');
+    var productName = metaTitle ? metaTitle.content : 'Derma Dose Co.';
+    var priceEl = document.querySelector('.price__regular .price-item, .price .price-item--regular, .price-item');
+    var productPrice = priceEl ? priceEl.textContent.trim() : '';
     var bar = document.createElement('div');
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
-      '<span id="sgp-sticky-bar__title">GlowVac Pro</span>' +
-      '<span id="sgp-sticky-bar__price">$39.99</span>' +
+      '<span id="sgp-sticky-bar__title">' + productName + '</span>' +
+      '<span id="sgp-sticky-bar__price">' + productPrice + '</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
 
@@ -287,8 +292,8 @@
       '<div id="sgp-popup">' +
         '<button id="sgp-popup__close" aria-label="Close">\u2715</button>' +
         '<div id="sgp-popup__badge">Limited Launch Offer</div>' +
-        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your GlowVac Pro</h2>' +
-        '<p id="sgp-popup__sub">Join our community and get your exclusive launch discount. Professional pore cleansing starts here.</p>' +
+        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your First Order</h2>' +
+        '<p id="sgp-popup__sub">Join the Derma Dose community and get your exclusive launch discount. Professional skincare tools, delivered.</p>' +
         '<form id="sgp-popup__form">' +
           '<input id="sgp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
           '<button id="sgp-popup__submit" type="submit">Claim My 10% Off \u2192</button>' +
@@ -345,14 +350,26 @@
   function initPixelEvents() {
     if (typeof fbq === 'undefined') return;
 
+    // Helper: get product price from page meta or price element
+    function getProductPrice() {
+      var priceEl = document.querySelector('.price__regular .price-item, .price .price-item--regular, .price-item');
+      if (priceEl) {
+        var p = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, ''));
+        if (!isNaN(p)) return p;
+      }
+      return 0;
+    }
+    function getProductName() {
+      var metaEl = document.querySelector('meta[property="og:title"]');
+      return metaEl ? metaEl.content : document.title;
+    }
+
     // ViewContent on product pages
     if (window.location.pathname.indexOf('/products/') !== -1) {
-      var metaEl = document.querySelector('meta[property="og:title"]');
-      var productTitle = metaEl ? metaEl.content : document.title;
       fbq('track', 'ViewContent', {
-        content_name: productTitle,
+        content_name: getProductName(),
         content_type: 'product',
-        value: 39.99,
+        value: getProductPrice(),
         currency: 'USD'
       });
     }
@@ -362,9 +379,9 @@
       var form = e.target;
       if (form && (form.action || '').indexOf('/cart/add') !== -1) {
         fbq('track', 'AddToCart', {
-          content_name: 'GlowVac Pro',
+          content_name: getProductName(),
           content_type: 'product',
-          value: 39.99,
+          value: getProductPrice(),
           currency: 'USD'
         });
       }
@@ -374,15 +391,15 @@
     document.addEventListener('click', function(e) {
       var el = e.target.closest ? e.target.closest('a[href*="/checkout"], button[name="checkout"], .cart__checkout-button') : null;
       if (el) {
-        fbq('track', 'InitiateCheckout', { value: 39.99, currency: 'USD' });
+        fbq('track', 'InitiateCheckout', { currency: 'USD' });
       }
     });
 
     // Purchase — fires on thank-you page, reads actual order value
     if (window.location.pathname.indexOf('/thank_you') !== -1 || window.location.pathname.indexOf('/orders/') !== -1) {
-      var orderValue = 39.99;
+      var orderValue = 0;
       if (window.Shopify && window.Shopify.checkout) {
-        orderValue = parseFloat(window.Shopify.checkout.total_price) || orderValue;
+        orderValue = parseFloat(window.Shopify.checkout.total_price) || 0;
       }
       fbq('track', 'Purchase', { value: orderValue, currency: 'USD' });
     }

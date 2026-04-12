@@ -389,8 +389,30 @@
   }
 
   // ── Brand Name Rewrites (shop.name is stuck via admin, rewrite in DOM) ──
+  // Scoped to ONLY: <title>, header logo/shop name, footer copyright.
+  // Must NOT rewrite inside <main>, .product, .product__title, .product-form,
+  // or the product info block — the product is literally named "GlowVac Pro".
+  function rewriteBrandIn(node) {
+    if (!node) return;
+    // Guard: never rewrite inside product/main regions
+    if (node.closest && node.closest('main, .product, .product__title, .product-form, .product__info-wrapper, .product__info-container')) return;
+    var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+    var texts = [], t;
+    while ((t = walker.nextNode())) {
+      if (t.nodeValue && (t.nodeValue.indexOf('GlowVac Pro') !== -1 || t.nodeValue.indexOf('Derma Dose Co.') !== -1)) {
+        texts.push(t);
+      }
+    }
+    texts.forEach(function(tn){
+      tn.nodeValue = tn.nodeValue
+        .replace(/GlowVac Pro/g, 'Derma Rose Co.')
+        .replace(/Derma Dose Co\./g, 'Derma Rose Co.');
+    });
+  }
+
   function fixBrandNameEverywhere() {
     try {
+      // 1. <title>
       if (document.title.indexOf('GlowVac Pro') !== -1 || document.title.indexOf('Derma Dose Co.') !== -1) {
         document.title = document.title
           .replace(/GlowVac Pro/g, 'Derma Rose Co.')
@@ -398,17 +420,27 @@
           .replace(/Derma Rose Co\. – Derma Rose Co\./g, 'Derma Rose Co.');
       }
       if (!document.body) return;
-      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
-      var nodes = [], n;
-      while ((n = walker.nextNode())) {
-        if (n.nodeValue && (n.nodeValue.indexOf('GlowVac Pro') !== -1 || n.nodeValue.indexOf('Derma Dose Co.') !== -1)) {
-          nodes.push(n);
-        }
-      }
-      nodes.forEach(function(node){
-        node.nodeValue = node.nodeValue
-          .replace(/GlowVac Pro/g, 'Derma Rose Co.')
-          .replace(/Derma Dose Co\./g, 'Derma Rose Co.');
+
+      // 2. Header logo / shop name link
+      var headerSelectors = [
+        '.header__heading',
+        '.header__heading-link',
+        '.header__heading-logo',
+        'h1.header__heading'
+      ];
+      headerSelectors.forEach(function(sel){
+        document.querySelectorAll(sel).forEach(rewriteBrandIn);
+      });
+
+      // 3. Footer copyright (Dawn default: .copyright__content)
+      var footerSelectors = [
+        '.copyright__content',
+        '.copyright',
+        '.footer__copyright',
+        'small.copyright__content'
+      ];
+      footerSelectors.forEach(function(sel){
+        document.querySelectorAll(sel).forEach(rewriteBrandIn);
       });
     } catch(e) {}
   }

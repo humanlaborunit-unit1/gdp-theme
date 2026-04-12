@@ -1,5 +1,5 @@
 /**
- * Derma Dose Co. — Meta Pixel + CSS & UI Enhancements
+ * Derma Rose Co. — Meta Pixel + CSS & UI Enhancements
  * Injected via Shopify Script Tags API → jsDelivr CDN
  * Theme colors are now native via settings_data.json.
  * This file handles: Meta Pixel, mobile sticky bar, email popup, polish overrides.
@@ -26,18 +26,18 @@
 
   var CSS = `
     /* ══════════════════════════════════════════════════════
-       SCULPTGLOW PRO — POLISH OVERRIDES
+       DERMA ROSE CO. — POLISH OVERRIDES
        Theme handles base colors. This supplements.
     ══════════════════════════════════════════════════════ */
 
     /* ── Store name: inject brand ── */
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link .h2::before {
-      content: "Derma Dose Co.";
+      content: "Derma Rose Co.";
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       letter-spacing: 0.06em !important;
-      background: linear-gradient(90deg, #c9956b, #d4a574);
+      background: linear-gradient(90deg, #C56A6A, #D98A8A);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -48,31 +48,31 @@
     button[name="add"],
     .product-form__submit,
     .cart__checkout-button {
-      background: linear-gradient(135deg, #c9956b 0%, #d4a574 100%) !important;
+      background: linear-gradient(135deg, #C56A6A 0%, #D98A8A 100%) !important;
       color: #1a1a2e !important;
       font-weight: 800 !important;
       border: none !important;
-      box-shadow: 0 4px 20px rgba(201,149,107,0.35) !important;
+      box-shadow: 0 4px 20px rgba(197,106,106,0.35) !important;
       transition: box-shadow 0.25s ease, transform 0.2s ease !important;
     }
     .button--primary:hover,
     button[name="add"]:hover,
     .product-form__submit:hover {
-      box-shadow: 0 6px 32px rgba(201,149,107,0.55) !important;
+      box-shadow: 0 6px 32px rgba(197,106,106,0.55) !important;
       transform: translateY(-2px) !important;
     }
 
     /* ── Shopify dynamic checkout buttons ── */
     .shopify-payment-button__button--branded {
-      background: linear-gradient(135deg, #c9956b, #d4a574) !important;
-      box-shadow: 0 4px 16px rgba(201,149,107,0.25) !important;
+      background: linear-gradient(135deg, #C56A6A, #D98A8A) !important;
+      box-shadow: 0 4px 16px rgba(197,106,106,0.25) !important;
     }
 
     /* ── Product price color ── */
     .price__regular .price-item,
     .price .price-item--regular,
     .price-item {
-      color: #c9956b !important;
+      color: #C56A6A !important;
       font-weight: 800 !important;
     }
     .price__sale .price-item--regular,
@@ -82,24 +82,24 @@
 
     /* ── Collapsible tab headings ── */
     .collapsible-content__summary:hover,
-    details[open] > summary { color: #c9956b !important; }
+    details[open] > summary { color: #C56A6A !important; }
 
     /* ── Links ── */
     a:not(.button):not(.header__heading-link):not(.sgp-hero__cta):not(.sgp-fcta__btn) {
-      color: #d4b896;
+      color: #D98A8A;
     }
-    a:not(.button):not(.header__heading-link):hover { color: #c9956b; }
+    a:not(.button):not(.header__heading-link):hover { color: #C56A6A; }
 
     /* ── Header glass blur ── */
     .header, .header-wrapper {
       backdrop-filter: blur(16px) !important;
       -webkit-backdrop-filter: blur(16px) !important;
-      border-bottom: 1px solid rgba(201,149,107,0.1) !important;
+      border-bottom: 1px solid rgba(197,106,106,0.1) !important;
     }
 
     /* ── Cart drawer border ── */
     .cart-drawer {
-      border-left: 1px solid rgba(201,149,107,0.15) !important;
+      border-left: 1px solid rgba(197,106,106,0.15) !important;
     }
 
     /* ── Media / product images ── */
@@ -116,11 +116,11 @@
       z-index: 9998;
       background: rgba(5,8,18,0.97);
       backdrop-filter: blur(14px);
-      border-top: 1px solid rgba(201,149,107,0.25);
+      border-top: 1px solid rgba(197,106,106,0.25);
       padding: 12px 16px;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 -4px 30px rgba(201,149,107,0.1);
+      box-shadow: 0 -4px 30px rgba(197,106,106,0.1);
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
     }
@@ -139,12 +139,12 @@
     }
     #sgp-sticky-bar__price {
       font-weight: 800;
-      color: #c9956b;
+      color: #C56A6A;
       font-size: 1em;
       white-space: nowrap;
     }
     #sgp-sticky-bar__btn {
-      background: linear-gradient(135deg, #c9956b, #d4a574);
+      background: linear-gradient(135deg, #C56A6A, #D98A8A);
       color: #1a1a2e;
       font-weight: 800;
       font-size: 0.82em;
@@ -155,7 +155,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       white-space: nowrap;
-      box-shadow: 0 4px 15px rgba(201,149,107,0.3);
+      box-shadow: 0 4px 15px rgba(197,106,106,0.3);
     }
     @media screen and (min-width: 750px) {
       #sgp-sticky-bar { display: none !important; }
@@ -176,12 +176,12 @@
     #sgp-popup {
       position: relative;
       background: linear-gradient(135deg, #0a0e1c 0%, #1a1018 100%);
-      border: 1px solid rgba(201,149,107,0.3);
+      border: 1px solid rgba(197,106,106,0.3);
       border-radius: 20px;
       padding: 40px 36px 36px;
       max-width: 420px;
       width: 90%;
-      box-shadow: 0 0 60px rgba(201,149,107,0.12);
+      box-shadow: 0 0 60px rgba(197,106,106,0.12);
       text-align: center;
       animation: sgpPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
     }
@@ -198,9 +198,9 @@
     #sgp-popup__close:hover { color: #fff; }
     #sgp-popup__badge {
       display: inline-block;
-      background: rgba(201,149,107,0.08);
-      border: 1px solid rgba(201,149,107,0.35);
-      color: #c9956b; font-size: 0.72rem; font-weight: 700;
+      background: rgba(197,106,106,0.08);
+      border: 1px solid rgba(197,106,106,0.35);
+      color: #C56A6A; font-size: 0.72rem; font-weight: 700;
       letter-spacing: 0.1em; text-transform: uppercase;
       padding: 5px 14px; border-radius: 50px; margin-bottom: 16px;
     }
@@ -209,7 +209,7 @@
       line-height: 1.25; margin: 0 0 10px;
     }
     #sgp-popup__heading span {
-      background: linear-gradient(90deg, #c9956b, #d4a574);
+      background: linear-gradient(90deg, #C56A6A, #D98A8A);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     #sgp-popup__sub {
@@ -218,26 +218,26 @@
     #sgp-popup__form { display: flex; flex-direction: column; gap: 10px; }
     #sgp-popup__email {
       background: rgba(15,23,40,0.9) !important;
-      border: 1px solid rgba(201,149,107,0.25) !important;
+      border: 1px solid rgba(197,106,106,0.25) !important;
       border-radius: 50px !important;
       color: #f0f4ff !important;
       font-size: 0.95rem; padding: 13px 20px !important;
       outline: none; width: 100%; box-sizing: border-box; text-align: center;
     }
     #sgp-popup__email:focus {
-      border-color: rgba(201,149,107,0.6) !important;
-      box-shadow: 0 0 12px rgba(201,149,107,0.12) !important;
+      border-color: rgba(197,106,106,0.6) !important;
+      box-shadow: 0 0 12px rgba(197,106,106,0.12) !important;
     }
     #sgp-popup__submit {
-      background: linear-gradient(135deg, #c9956b, #d4a574) !important;
+      background: linear-gradient(135deg, #C56A6A, #D98A8A) !important;
       color: #1a1a2e !important; font-weight: 800 !important;
       font-size: 0.92rem !important; border: none !important;
       border-radius: 50px !important; padding: 13px 24px !important;
       cursor: pointer !important; text-transform: uppercase !important;
       letter-spacing: 0.05em !important;
-      box-shadow: 0 4px 20px rgba(201,149,107,0.3) !important;
+      box-shadow: 0 4px 20px rgba(197,106,106,0.3) !important;
     }
-    #sgp-popup__success { display: none; color: #c9956b; font-size: 1rem; font-weight: 700; padding: 8px 0; }
+    #sgp-popup__success { display: none; color: #C56A6A; font-size: 1rem; font-weight: 700; padding: 8px 0; }
     #sgp-popup__skip {
       margin-top: 14px; font-size: 0.76rem; color: rgba(255,255,255,0.25);
       cursor: pointer; background: none; border: none; text-decoration: underline;
@@ -261,16 +261,11 @@
     if (document.getElementById('sgp-sticky-bar')) return;
 
     var addBtn = document.querySelector('button[name="add"], .product-form__submit');
-    // Detect product name and price from page
-    var metaTitle = document.querySelector('meta[property="og:title"]');
-    var productName = metaTitle ? metaTitle.content : 'Derma Dose Co.';
-    var priceEl = document.querySelector('.price__regular .price-item, .price .price-item--regular, .price-item');
-    var productPrice = priceEl ? priceEl.textContent.trim() : '';
     var bar = document.createElement('div');
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
-      '<span id="sgp-sticky-bar__title">' + productName + '</span>' +
-      '<span id="sgp-sticky-bar__price">' + productPrice + '</span>' +
+      '<span id="sgp-sticky-bar__title">Derma Rose Co.</span>' +
+      '<span id="sgp-sticky-bar__price">$39.99</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
 
@@ -292,8 +287,8 @@
       '<div id="sgp-popup">' +
         '<button id="sgp-popup__close" aria-label="Close">\u2715</button>' +
         '<div id="sgp-popup__badge">Limited Launch Offer</div>' +
-        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your First Order</h2>' +
-        '<p id="sgp-popup__sub">Join the Derma Dose community and get your exclusive launch discount. Professional skincare tools, delivered.</p>' +
+        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your Derma Rose Co. Order</h2>' +
+        '<p id="sgp-popup__sub">Join our community and get your exclusive launch discount. Professional pore cleansing starts here.</p>' +
         '<form id="sgp-popup__form">' +
           '<input id="sgp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
           '<button id="sgp-popup__submit" type="submit">Claim My 10% Off \u2192</button>' +
@@ -350,26 +345,14 @@
   function initPixelEvents() {
     if (typeof fbq === 'undefined') return;
 
-    // Helper: get product price from page meta or price element
-    function getProductPrice() {
-      var priceEl = document.querySelector('.price__regular .price-item, .price .price-item--regular, .price-item');
-      if (priceEl) {
-        var p = parseFloat(priceEl.textContent.replace(/[^0-9.]/g, ''));
-        if (!isNaN(p)) return p;
-      }
-      return 0;
-    }
-    function getProductName() {
-      var metaEl = document.querySelector('meta[property="og:title"]');
-      return metaEl ? metaEl.content : document.title;
-    }
-
     // ViewContent on product pages
     if (window.location.pathname.indexOf('/products/') !== -1) {
+      var metaEl = document.querySelector('meta[property="og:title"]');
+      var productTitle = metaEl ? metaEl.content : document.title;
       fbq('track', 'ViewContent', {
-        content_name: getProductName(),
+        content_name: productTitle,
         content_type: 'product',
-        value: getProductPrice(),
+        value: 39.99,
         currency: 'USD'
       });
     }
@@ -379,9 +362,9 @@
       var form = e.target;
       if (form && (form.action || '').indexOf('/cart/add') !== -1) {
         fbq('track', 'AddToCart', {
-          content_name: getProductName(),
+          content_name: 'Derma Rose Co.',
           content_type: 'product',
-          value: getProductPrice(),
+          value: 39.99,
           currency: 'USD'
         });
       }
@@ -391,15 +374,15 @@
     document.addEventListener('click', function(e) {
       var el = e.target.closest ? e.target.closest('a[href*="/checkout"], button[name="checkout"], .cart__checkout-button') : null;
       if (el) {
-        fbq('track', 'InitiateCheckout', { currency: 'USD' });
+        fbq('track', 'InitiateCheckout', { value: 39.99, currency: 'USD' });
       }
     });
 
     // Purchase — fires on thank-you page, reads actual order value
     if (window.location.pathname.indexOf('/thank_you') !== -1 || window.location.pathname.indexOf('/orders/') !== -1) {
-      var orderValue = 0;
+      var orderValue = 39.99;
       if (window.Shopify && window.Shopify.checkout) {
-        orderValue = parseFloat(window.Shopify.checkout.total_price) || 0;
+        orderValue = parseFloat(window.Shopify.checkout.total_price) || orderValue;
       }
       fbq('track', 'Purchase', { value: orderValue, currency: 'USD' });
     }

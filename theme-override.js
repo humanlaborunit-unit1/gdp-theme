@@ -388,15 +388,45 @@
     }
   }
 
+  // ── Brand Name Rewrites (shop.name is stuck via admin, rewrite in DOM) ──
+  function fixBrandNameEverywhere() {
+    try {
+      if (document.title.indexOf('GlowVac Pro') !== -1 || document.title.indexOf('Derma Dose Co.') !== -1) {
+        document.title = document.title
+          .replace(/GlowVac Pro/g, 'Derma Rose Co.')
+          .replace(/Derma Dose Co\./g, 'Derma Rose Co.')
+          .replace(/Derma Rose Co\. – Derma Rose Co\./g, 'Derma Rose Co.');
+      }
+      if (!document.body) return;
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+      var nodes = [], n;
+      while ((n = walker.nextNode())) {
+        if (n.nodeValue && (n.nodeValue.indexOf('GlowVac Pro') !== -1 || n.nodeValue.indexOf('Derma Dose Co.') !== -1)) {
+          nodes.push(n);
+        }
+      }
+      nodes.forEach(function(node){
+        node.nodeValue = node.nodeValue
+          .replace(/GlowVac Pro/g, 'Derma Rose Co.')
+          .replace(/Derma Dose Co\./g, 'Derma Rose Co.');
+      });
+    } catch(e) {}
+  }
+
   // ── Init ─────────────────────────────────────────────────────────────────
 
   injectCSS();
+  fixBrandNameEverywhere();
 
   document.addEventListener('DOMContentLoaded', function () {
     injectCSS();
+    fixBrandNameEverywhere();
     initStickyBar();
     initEmailPopup();
     initPixelEvents();
+    // re-run after any late footer/copyright injection
+    setTimeout(fixBrandNameEverywhere, 500);
+    setTimeout(fixBrandNameEverywhere, 2000);
   });
 
 })();

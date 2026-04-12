@@ -1,5 +1,5 @@
 /**
- * Derma Rose Co. — Meta Pixel + CSS & UI Enhancements
+ * Derma Dose Co. — Meta Pixel + CSS & UI Enhancements
  * Injected via Shopify Script Tags API → jsDelivr CDN
  * Theme colors are now native via settings_data.json.
  * This file handles: Meta Pixel, mobile sticky bar, email popup, polish overrides.
@@ -33,7 +33,7 @@
     /* ── Store name: inject brand ── */
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link .h2::before {
-      content: "Derma Rose Co.";
+      content: "Derma Dose Co.";
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       letter-spacing: 0.06em !important;
@@ -264,7 +264,7 @@
     var bar = document.createElement('div');
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
-      '<span id="sgp-sticky-bar__title">Derma Rose Co.</span>' +
+      '<span id="sgp-sticky-bar__title">Derma Dose Co.</span>' +
       '<span id="sgp-sticky-bar__price">$39.99</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
@@ -287,7 +287,7 @@
       '<div id="sgp-popup">' +
         '<button id="sgp-popup__close" aria-label="Close">\u2715</button>' +
         '<div id="sgp-popup__badge">Limited Launch Offer</div>' +
-        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your Derma Rose Co. Order</h2>' +
+        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your Derma Dose Co. Order</h2>' +
         '<p id="sgp-popup__sub">Join our community and get your exclusive launch discount. Professional pore cleansing starts here.</p>' +
         '<form id="sgp-popup__form">' +
           '<input id="sgp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
@@ -362,7 +362,7 @@
       var form = e.target;
       if (form && (form.action || '').indexOf('/cart/add') !== -1) {
         fbq('track', 'AddToCart', {
-          content_name: 'Derma Rose Co.',
+          content_name: 'Derma Dose Co.',
           content_type: 'product',
           value: 39.99,
           currency: 'USD'
@@ -399,25 +399,25 @@
     var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
     var texts = [], t;
     while ((t = walker.nextNode())) {
-      if (t.nodeValue && (t.nodeValue.indexOf('GlowVac Pro') !== -1 || t.nodeValue.indexOf('Derma Dose Co.') !== -1)) {
+      if (t.nodeValue && (t.nodeValue.indexOf('GlowVac Pro') !== -1 || t.nodeValue.indexOf('Derma Rose Co.') !== -1)) {
         texts.push(t);
       }
     }
     texts.forEach(function(tn){
       tn.nodeValue = tn.nodeValue
-        .replace(/GlowVac Pro/g, 'Derma Rose Co.')
-        .replace(/Derma Dose Co\./g, 'Derma Rose Co.');
+        .replace(/GlowVac Pro/g, 'Derma Dose Co.')
+        .replace(/Derma Rose Co\./g, 'Derma Dose Co.');
     });
   }
 
   function fixBrandNameEverywhere() {
     try {
       // 1. <title>
-      if (document.title.indexOf('GlowVac Pro') !== -1 || document.title.indexOf('Derma Dose Co.') !== -1) {
+      if (document.title.indexOf('GlowVac Pro') !== -1 || document.title.indexOf('Derma Rose Co.') !== -1) {
         document.title = document.title
-          .replace(/GlowVac Pro/g, 'Derma Rose Co.')
-          .replace(/Derma Dose Co\./g, 'Derma Rose Co.')
-          .replace(/Derma Rose Co\. – Derma Rose Co\./g, 'Derma Rose Co.');
+          .replace(/GlowVac Pro/g, 'Derma Dose Co.')
+          .replace(/Derma Rose Co\./g, 'Derma Dose Co.')
+          .replace(/Derma Dose Co\. – Derma Dose Co\./g, 'Derma Dose Co.');
       }
       if (!document.body) return;
 

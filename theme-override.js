@@ -1,5 +1,5 @@
 /**
- * Derma Dose Co. — Meta Pixel + CSS & UI Enhancements
+ * Derma Rose Co. — Meta Pixel + CSS & UI Enhancements
  * Injected via Shopify Script Tags API → jsDelivr CDN
  * Theme colors are now native via settings_data.json.
  * This file handles: Meta Pixel, mobile sticky bar, email popup, polish overrides.
@@ -33,7 +33,7 @@
     /* ── Store name: inject brand ── */
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link .h2::before {
-      content: "Derma Dose Co.";
+      content: "Derma Rose Co.";
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       letter-spacing: 0.06em !important;
@@ -264,8 +264,8 @@
     var bar = document.createElement('div');
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
-      '<span id="sgp-sticky-bar__title">Derma Dose Co.</span>' +
-      '<span id="sgp-sticky-bar__price">$39.99</span>' +
+      '<span id="sgp-sticky-bar__title">Derma Rose Co.</span>' +
+      '<span id="sgp-sticky-bar__price">$44.99</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
 
@@ -287,7 +287,7 @@
       '<div id="sgp-popup">' +
         '<button id="sgp-popup__close" aria-label="Close">\u2715</button>' +
         '<div id="sgp-popup__badge">Limited Launch Offer</div>' +
-        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your Derma Dose Co. Order</h2>' +
+        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your Derma Rose Co. Order</h2>' +
         '<p id="sgp-popup__sub">Join our community and get your exclusive launch discount. Professional pore cleansing starts here.</p>' +
         '<form id="sgp-popup__form">' +
           '<input id="sgp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
@@ -352,7 +352,7 @@
       fbq('track', 'ViewContent', {
         content_name: productTitle,
         content_type: 'product',
-        value: 39.99,
+        value: 44.99,
         currency: 'USD'
       });
     }
@@ -362,9 +362,9 @@
       var form = e.target;
       if (form && (form.action || '').indexOf('/cart/add') !== -1) {
         fbq('track', 'AddToCart', {
-          content_name: 'Derma Dose Co.',
+          content_name: 'Derma Rose Co.',
           content_type: 'product',
-          value: 39.99,
+          value: 44.99,
           currency: 'USD'
         });
       }
@@ -374,13 +374,13 @@
     document.addEventListener('click', function(e) {
       var el = e.target.closest ? e.target.closest('a[href*="/checkout"], button[name="checkout"], .cart__checkout-button') : null;
       if (el) {
-        fbq('track', 'InitiateCheckout', { value: 39.99, currency: 'USD' });
+        fbq('track', 'InitiateCheckout', { value: 44.99, currency: 'USD' });
       }
     });
 
     // Purchase — fires on thank-you page, reads actual order value
     if (window.location.pathname.indexOf('/thank_you') !== -1 || window.location.pathname.indexOf('/orders/') !== -1) {
-      var orderValue = 39.99;
+      var orderValue = 44.99;
       if (window.Shopify && window.Shopify.checkout) {
         orderValue = parseFloat(window.Shopify.checkout.total_price) || orderValue;
       }
@@ -389,58 +389,26 @@
   }
 
   // ── Brand Name Rewrites (shop.name is stuck via admin, rewrite in DOM) ──
-  // Scoped to ONLY: <title>, header logo/shop name, footer copyright.
-  // Must NOT rewrite inside <main>, .product, .product__title, .product-form,
-  // or the product info block — the product is literally named "GlowVac Pro".
-  function rewriteBrandIn(node) {
-    if (!node) return;
-    // Guard: never rewrite inside product/main regions
-    if (node.closest && node.closest('main, .product, .product__title, .product-form, .product__info-wrapper, .product__info-container')) return;
-    var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
-    var texts = [], t;
-    while ((t = walker.nextNode())) {
-      if (t.nodeValue && (t.nodeValue.indexOf('GlowVac Pro') !== -1 || t.nodeValue.indexOf('Derma Rose Co.') !== -1)) {
-        texts.push(t);
-      }
-    }
-    texts.forEach(function(tn){
-      tn.nodeValue = tn.nodeValue
-        .replace(/GlowVac Pro/g, 'Derma Dose Co.')
-        .replace(/Derma Rose Co\./g, 'Derma Dose Co.');
-    });
-  }
-
   function fixBrandNameEverywhere() {
     try {
-      // 1. <title>
-      if (document.title.indexOf('GlowVac Pro') !== -1 || document.title.indexOf('Derma Rose Co.') !== -1) {
+      if (document.title.indexOf('GlowVac Pro') !== -1 || document.title.indexOf('Derma Dose Co.') !== -1) {
         document.title = document.title
-          .replace(/GlowVac Pro/g, 'Derma Dose Co.')
-          .replace(/Derma Rose Co\./g, 'Derma Dose Co.')
-          .replace(/Derma Dose Co\. – Derma Dose Co\./g, 'Derma Dose Co.');
+          .replace(/GlowVac Pro/g, 'Derma Rose Co.')
+          .replace(/Derma Dose Co\./g, 'Derma Rose Co.')
+          .replace(/Derma Rose Co\. – Derma Rose Co\./g, 'Derma Rose Co.');
       }
       if (!document.body) return;
-
-      // 2. Header logo / shop name link
-      var headerSelectors = [
-        '.header__heading',
-        '.header__heading-link',
-        '.header__heading-logo',
-        'h1.header__heading'
-      ];
-      headerSelectors.forEach(function(sel){
-        document.querySelectorAll(sel).forEach(rewriteBrandIn);
-      });
-
-      // 3. Footer copyright (Dawn default: .copyright__content)
-      var footerSelectors = [
-        '.copyright__content',
-        '.copyright',
-        '.footer__copyright',
-        'small.copyright__content'
-      ];
-      footerSelectors.forEach(function(sel){
-        document.querySelectorAll(sel).forEach(rewriteBrandIn);
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+      var nodes = [], n;
+      while ((n = walker.nextNode())) {
+        if (n.nodeValue && (n.nodeValue.indexOf('GlowVac Pro') !== -1 || n.nodeValue.indexOf('Derma Dose Co.') !== -1)) {
+          nodes.push(n);
+        }
+      }
+      nodes.forEach(function(node){
+        node.nodeValue = node.nodeValue
+          .replace(/GlowVac Pro/g, 'Derma Rose Co.')
+          .replace(/Derma Dose Co\./g, 'Derma Rose Co.');
       });
     } catch(e) {}
   }

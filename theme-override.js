@@ -265,7 +265,7 @@
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
       '<span id="sgp-sticky-bar__title">Derma Dose Co.</span>' +
-      '<span id="sgp-sticky-bar__price">$39.99</span>' +
+      '<span id="sgp-sticky-bar__price">$44.99</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
 
@@ -352,7 +352,7 @@
       fbq('track', 'ViewContent', {
         content_name: productTitle,
         content_type: 'product',
-        value: 39.99,
+        value: 44.99,
         currency: 'USD'
       });
     }
@@ -364,7 +364,7 @@
         fbq('track', 'AddToCart', {
           content_name: 'Derma Dose Co.',
           content_type: 'product',
-          value: 39.99,
+          value: 44.99,
           currency: 'USD'
         });
       }
@@ -374,13 +374,13 @@
     document.addEventListener('click', function(e) {
       var el = e.target.closest ? e.target.closest('a[href*="/checkout"], button[name="checkout"], .cart__checkout-button') : null;
       if (el) {
-        fbq('track', 'InitiateCheckout', { value: 39.99, currency: 'USD' });
+        fbq('track', 'InitiateCheckout', { value: 44.99, currency: 'USD' });
       }
     });
 
     // Purchase — fires on thank-you page, reads actual order value
     if (window.location.pathname.indexOf('/thank_you') !== -1 || window.location.pathname.indexOf('/orders/') !== -1) {
-      var orderValue = 39.99;
+      var orderValue = 44.99;
       if (window.Shopify && window.Shopify.checkout) {
         orderValue = parseFloat(window.Shopify.checkout.total_price) || orderValue;
       }

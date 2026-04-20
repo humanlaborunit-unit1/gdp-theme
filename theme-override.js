@@ -1,24 +1,15 @@
 /**
- * Derma Dose Co. — Meta Pixel + CSS & UI Enhancements
+ * Derma Dose Co. — CSS & UI Enhancements
  * Injected via Shopify Script Tags API → jsDelivr CDN
- * Theme colors are now native via settings_data.json.
- * This file handles: Meta Pixel, mobile sticky bar, email popup, polish overrides.
+ * Theme colors are native via settings_data.json.
+ * This file handles: mobile sticky bar, email popup, polish overrides, brand-name rewrites.
+ *
+ * Meta Pixel + Conversions API are handled by the official Meta Sales Channel
+ * Shopify app (installed 2026-04-20), which fires events through Shopify's
+ * sanctioned Customer Events / Web Pixels API. The previous inline pixel here
+ * was firing duplicate PageView and broken e-commerce events (sandboxed by
+ * Web Pixels Manager since 2023). Removed to avoid duplicate-event risk.
  */
-
-/* ── Meta Pixel ──────────────────────────────────────────────────────────── */
-(function(){
-  if (window.fbq) return;
-  var n = window.fbq = function(){n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments);};
-  if (!window._fbq) window._fbq = n;
-  n.push = n; n.loaded = true; n.version = '2.0';
-  n.queue = [];
-  var t = document.createElement('script');
-  t.async = true; t.src = 'https://connect.facebook.net/en_US/fbevents.js';
-  var s = document.getElementsByTagName('script')[0];
-  s.parentNode.insertBefore(t, s);
-  fbq('init', '1268477758116097');
-  fbq('track', 'PageView');
-})();
 
 /* ── Store Enhancements ──────────────────────────────────────────────────── */
 (function () {
@@ -340,53 +331,16 @@
     });
   }
 
-  // ── Meta Pixel E-Commerce Events ──────────────────────────────────────────
-
-  function initPixelEvents() {
-    if (typeof fbq === 'undefined') return;
-
-    // ViewContent on product pages
-    if (window.location.pathname.indexOf('/products/') !== -1) {
-      var metaEl = document.querySelector('meta[property="og:title"]');
-      var productTitle = metaEl ? metaEl.content : document.title;
-      fbq('track', 'ViewContent', {
-        content_name: productTitle,
-        content_type: 'product',
-        value: 44.99,
-        currency: 'USD'
-      });
-    }
-
-    // AddToCart — listen for form submissions and ATC button clicks
-    document.addEventListener('submit', function(e) {
-      var form = e.target;
-      if (form && (form.action || '').indexOf('/cart/add') !== -1) {
-        fbq('track', 'AddToCart', {
-          content_name: 'Derma Dose Co.',
-          content_type: 'product',
-          value: 44.99,
-          currency: 'USD'
-        });
-      }
-    });
-
-    // InitiateCheckout — listen for checkout button clicks
-    document.addEventListener('click', function(e) {
-      var el = e.target.closest ? e.target.closest('a[href*="/checkout"], button[name="checkout"], .cart__checkout-button') : null;
-      if (el) {
-        fbq('track', 'InitiateCheckout', { value: 44.99, currency: 'USD' });
-      }
-    });
-
-    // Purchase — fires on thank-you page, reads actual order value
-    if (window.location.pathname.indexOf('/thank_you') !== -1 || window.location.pathname.indexOf('/orders/') !== -1) {
-      var orderValue = 44.99;
-      if (window.Shopify && window.Shopify.checkout) {
-        orderValue = parseFloat(window.Shopify.checkout.total_price) || orderValue;
-      }
-      fbq('track', 'Purchase', { value: orderValue, currency: 'USD' });
-    }
-  }
+  // ── Meta Pixel E-Commerce Events — REMOVED 2026-04-20 ─────────────────────
+  // Shopify's Web Pixels Manager (2023+) sandboxes the storefront and blocks
+  // inline fbq calls fired on later events (DOMContentLoaded / form submit /
+  // click). Only PageView slipped through. ViewContent / AddToCart /
+  // InitiateCheckout / Purchase never reached Meta — confirmed via API.
+  //
+  // Replaced with the official Meta Sales Channel app (installed via Shopify
+  // admin → Apps → Meta), which fires all events through the sanctioned
+  // Customer Events / Web Pixels API + Conversions API. That setup is the
+  // 2026 standard per reference_2026_meta_test_strategy memory.
 
   // ── Brand Name Rewrites (shop.name is stuck via admin, rewrite in DOM) ──
   // Scoped to ONLY: <title>, header logo/shop name, footer copyright.
@@ -455,7 +409,7 @@
     fixBrandNameEverywhere();
     initStickyBar();
     initEmailPopup();
-    initPixelEvents();
+    // initPixelEvents removed 2026-04-20 — Meta Sales Channel app handles all e-commerce events
     // re-run after any late footer/copyright injection
     setTimeout(fixBrandNameEverywhere, 500);
     setTimeout(fixBrandNameEverywhere, 2000);

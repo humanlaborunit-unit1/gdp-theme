@@ -256,7 +256,7 @@
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
       '<span id="sgp-sticky-bar__title">Derma Dose Co.</span>' +
-      '<span id="sgp-sticky-bar__price">$44.99</span>' +
+      '<span id="sgp-sticky-bar__price">$49.99</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
 

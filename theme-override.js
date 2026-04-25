@@ -99,6 +99,26 @@
       border-radius: 12px !important;
     }
 
+    /* ── Single-product standalone pages: hide nav, keep cart ── */
+    body.template-product.standalone-template .header-drawer,
+    body.template-product.standalone-template header-drawer {
+      display: none !important;
+    }
+    body.template-product.standalone-template .list-menu,
+    body.template-product.standalone-template [role="navigation"] .list-menu {
+      display: none !important;
+    }
+    body.template-product.standalone-template .header__heading-link[href="/"] {
+      cursor: default;
+      pointer-events: none;
+    }
+    body.template-product.standalone-template .header__icon--cart {
+      display: block !important;
+    }
+    body.template-product.standalone-template header-search {
+      display: none !important;
+    }
+
     /* ── Mobile sticky add-to-cart bar ── */
     #sgp-sticky-bar {
       display: none;
@@ -399,12 +419,46 @@
     } catch(e) {}
   }
 
+  // ── Detect standalone product pages ─────────────────────────────────────
+  // Single-product landing pages have template_suffix='standalone' in Liquid.
+  // Mark with CSS class so nav-hiding rules apply.
+  function markStandaloneProducts() {
+    // Check for the template class Shopify injects
+    if (document.body.classList.contains('template-product')) {
+      // Look for a data attribute or script that indicates standalone
+      var productMeta = document.querySelector('[data-product-id]');
+      var isStandalone = false;
+
+      // Check if there's a .sgp-template-standalone script or meta
+      if (document.querySelector('[data-template-suffix="standalone"]') ||
+          document.querySelector('.sgp-template-standalone') ||
+          document.body.getAttribute('data-template-suffix') === 'standalone') {
+        isStandalone = true;
+      }
+
+      // Also check URL patterns: /blackheadremover, /redlightwand, /acupressuremat, /necktraction
+      var currentPath = window.location.pathname;
+      if (currentPath === '/blackheadremover' ||
+          currentPath === '/redlightwand' ||
+          currentPath === '/acupressuremat' ||
+          currentPath === '/necktraction') {
+        isStandalone = true;
+      }
+
+      if (isStandalone) {
+        document.body.classList.add('standalone-template');
+      }
+    }
+  }
+
   // ── Init ─────────────────────────────────────────────────────────────────
 
+  markStandaloneProducts();
   injectCSS();
   fixBrandNameEverywhere();
 
   document.addEventListener('DOMContentLoaded', function () {
+    markStandaloneProducts();
     injectCSS();
     fixBrandNameEverywhere();
     initStickyBar();

@@ -100,22 +100,26 @@
     }
 
     /* ── Single-product standalone pages: hide nav, keep cart ── */
-    body.template-product.standalone-template .header-drawer,
-    body.template-product.standalone-template header-drawer {
+    body.standalone-template header-drawer {
       display: none !important;
     }
-    body.template-product.standalone-template .list-menu,
-    body.template-product.standalone-template [role="navigation"] .list-menu {
+    body.standalone-template .header-drawer {
       display: none !important;
     }
-    body.template-product.standalone-template .header__heading-link[href="/"] {
+    body.standalone-template .list-menu {
+      display: none !important;
+    }
+    body.standalone-template [role="navigation"] .list-menu {
+      display: none !important;
+    }
+    body.standalone-template .header__heading-link[href="/"] {
       cursor: default;
       pointer-events: none;
     }
-    body.template-product.standalone-template .header__icon--cart {
+    body.standalone-template .header__icon--cart {
       display: block !important;
     }
-    body.template-product.standalone-template header-search {
+    body.standalone-template header-search {
       display: none !important;
     }
 
@@ -423,31 +427,23 @@
   // Single-product landing pages have template_suffix='standalone' in Liquid.
   // Mark with CSS class so nav-hiding rules apply.
   function markStandaloneProducts() {
-    // Check for the template class Shopify injects
-    if (document.body.classList.contains('template-product')) {
-      // Look for a data attribute or script that indicates standalone
-      var productMeta = document.querySelector('[data-product-id]');
-      var isStandalone = false;
+    var currentPath = window.location.pathname;
+    var isStandalone = false;
 
-      // Check if there's a .sgp-template-standalone script or meta
-      if (document.querySelector('[data-template-suffix="standalone"]') ||
-          document.querySelector('.sgp-template-standalone') ||
-          document.body.getAttribute('data-template-suffix') === 'standalone') {
+    // Check if on a standalone product URL pattern: /products/blackheadremover, /products/redlightwand, etc.
+    // (URLs redirect from /blackheadremover to /products/blackheadremover)
+    var standaloneHandles = ['blackheadremover', 'redlightwand', 'acupressuremat', 'necktraction'];
+    for (var i = 0; i < standaloneHandles.length; i++) {
+      if (currentPath.indexOf('/products/' + standaloneHandles[i]) !== -1 ||
+          currentPath.indexOf('/' + standaloneHandles[i]) !== -1) {
         isStandalone = true;
+        break;
       }
+    }
 
-      // Also check URL patterns: /blackheadremover, /redlightwand, /acupressuremat, /necktraction
-      var currentPath = window.location.pathname;
-      if (currentPath === '/blackheadremover' ||
-          currentPath === '/redlightwand' ||
-          currentPath === '/acupressuremat' ||
-          currentPath === '/necktraction') {
-        isStandalone = true;
-      }
-
-      if (isStandalone) {
-        document.body.classList.add('standalone-template');
-      }
+    if (isStandalone) {
+      // Mark with both classes for robust targeting
+      document.body.classList.add('template-product', 'standalone-template');
     }
   }
 

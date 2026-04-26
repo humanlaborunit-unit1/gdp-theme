@@ -21,18 +21,22 @@
        Theme handles base colors. This supplements.
     ══════════════════════════════════════════════════════ */
 
-    /* ── Store name: inject brand ── */
+    /* ── Store name: inject brand wordmark (replaces image logo) ── */
+    .header__heading-logo-wrapper { display: none !important; }
     .header__heading-link .h2 { font-size: 0 !important; }
+    .header__heading-link::after,
     .header__heading-link .h2::before {
       content: "Talven";
-      font-size: 1.1rem !important;
-      font-weight: 800 !important;
-      letter-spacing: 0.06em !important;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.6rem !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.04em !important;
       background: linear-gradient(90deg, #C56A6A, #D98A8A);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .header__heading-link::after { display: inline-block; }
 
     /* ── Primary CTA button — rose gold gradient ── */
     .button--primary,

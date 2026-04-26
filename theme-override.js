@@ -1,5 +1,5 @@
 /**
- * Derma Dose Co. — CSS & UI Enhancements
+ * Talven — CSS & UI Enhancements
  * Injected via Shopify Script Tags API → jsDelivr CDN
  * Theme colors are native via settings_data.json.
  * This file handles: mobile sticky bar, email popup, polish overrides, brand-name rewrites.
@@ -17,14 +17,14 @@
 
   var CSS = `
     /* ══════════════════════════════════════════════════════
-       DERMA ROSE CO. — POLISH OVERRIDES
+       TALVEN — POLISH OVERRIDES
        Theme handles base colors. This supplements.
     ══════════════════════════════════════════════════════ */
 
     /* ── Store name: inject brand ── */
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link .h2::before {
-      content: "Derma Dose Co.";
+      content: "Talven";
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       letter-spacing: 0.06em !important;
@@ -279,7 +279,7 @@
     var bar = document.createElement('div');
     bar.id = 'sgp-sticky-bar';
     bar.innerHTML =
-      '<span id="sgp-sticky-bar__title">Derma Dose Co.</span>' +
+      '<span id="sgp-sticky-bar__title">Talven</span>' +
       '<span id="sgp-sticky-bar__price">$49.99</span>' +
       '<button id="sgp-sticky-bar__btn" onclick="(document.querySelector(\'button[name=add],.product-form__submit\')||{click:function(){}}).click()">Add to Cart</button>';
     document.body.appendChild(bar);
@@ -302,7 +302,7 @@
       '<div id="sgp-popup">' +
         '<button id="sgp-popup__close" aria-label="Close">\u2715</button>' +
         '<div id="sgp-popup__badge">Limited Launch Offer</div>' +
-        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your Derma Dose Co. Order</h2>' +
+        '<h2 id="sgp-popup__heading">Get <span>10% Off</span><br>Your Talven Order</h2>' +
         '<p id="sgp-popup__sub">Join our community and get your exclusive launch discount. Professional pore cleansing starts here.</p>' +
         '<form id="sgp-popup__form">' +
           '<input id="sgp-popup__email" type="email" placeholder="your@email.com" autocomplete="email" required />' +
@@ -383,8 +383,8 @@
     }
     texts.forEach(function(tn){
       tn.nodeValue = tn.nodeValue
-        .replace(/GlowVac Pro/g, 'Derma Dose Co.')
-        .replace(/Derma Rose Co\./g, 'Derma Dose Co.');
+        .replace(/GlowVac Pro/g, 'Talven')
+        .replace(/Derma Rose Co\./g, 'Talven');
     });
   }
 
@@ -393,9 +393,9 @@
       // 1. <title>
       if (document.title.indexOf('GlowVac Pro') !== -1 || document.title.indexOf('Derma Rose Co.') !== -1) {
         document.title = document.title
-          .replace(/GlowVac Pro/g, 'Derma Dose Co.')
-          .replace(/Derma Rose Co\./g, 'Derma Dose Co.')
-          .replace(/Derma Dose Co\. – Derma Dose Co\./g, 'Derma Dose Co.');
+          .replace(/GlowVac Pro/g, 'Talven')
+          .replace(/Derma Rose Co\./g, 'Talven')
+          .replace(/Talven – Talven/g, 'Talven');
       }
       if (!document.body) return;
 

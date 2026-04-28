@@ -9,21 +9,10 @@
 (function () {
   'use strict';
 
-  /* ── Talven brand mark (inline SVG, scales to any size) ─────────────────── */
-  // Stylized leaf-arc, rose-gold gradient. Same path is reused in dd-splp-founder.
-  var BRAND_MARK_SVG =
-    '<svg viewBox="0 0 64 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
-      '<defs>' +
-        '<linearGradient id="tlBrandGr" x1="0" y1="0" x2="1" y2="1">' +
-          '<stop offset="0" stop-color="#C56A6A"/>' +
-          '<stop offset="1" stop-color="#D98A8A"/>' +
-        '</linearGradient>' +
-      '</defs>' +
-      '<path d="M14 86 C 8 50, 22 14, 56 10 C 50 38, 38 62, 22 90 Z" ' +
-            'fill="url(#tlBrandGr)" />' +
-      '<path d="M16 82 Q 32 56, 50 18" stroke="#fff" stroke-width="1.6" ' +
-            'fill="none" stroke-linecap="round" opacity="0.55"/>' +
-    '</svg>';
+  /* ── Talven brand assets (PNG hosted via jsDelivr CDN) ──────────────────── */
+  var CDN = 'https://cdn.jsdelivr.net/gh/humanlaborunit-unit1/gdp-theme@main';
+  var LOGO_URL = CDN + '/talven-logo.png';
+  var FAVICON_URL = CDN + '/favicon.png';
 
   var CSS = `
     /* ══════════════════════════════════════════════════════
@@ -31,37 +20,27 @@
        Theme handles base colors. This supplements.
     ══════════════════════════════════════════════════════ */
 
-    /* ── Header brand lock-up (mark + wordmark) ── */
+    /* ── Header brand lock-up (PNG logo) ── */
     .header__heading-logo-wrapper { display: none !important; }
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link {
       display: inline-flex !important;
       align-items: center !important;
-      gap: 10px !important;
       text-decoration: none !important;
+      padding: 8px 0 !important;
     }
-    .tl-mark {
-      display: inline-block;
-      width: 22px;
-      height: 32px;
-      flex: 0 0 22px;
-    }
-    .tl-mark svg { width: 100%; height: 100%; display: block; }
-    .tl-word {
-      font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-      font-size: 1.55rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      background: linear-gradient(90deg, #C56A6A, #D98A8A);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-      white-space: nowrap;
+    .tl-logo {
+      display: block;
+      height: 48px;
+      width: auto;
+      max-width: 220px;
+      object-fit: contain;
     }
     @media (min-width: 750px) {
-      .tl-mark { width: 26px; height: 38px; flex: 0 0 26px; }
-      .tl-word { font-size: 1.75rem; }
+      .tl-logo { height: 60px; max-width: 280px; }
+    }
+    @media (min-width: 1100px) {
+      .tl-logo { height: 70px; max-width: 320px; }
     }
 
     /* ── Primary CTA — rose-gold gradient ── */
@@ -262,16 +241,39 @@
     (document.head || document.documentElement).appendChild(s);
   }
 
-  /* ── Header logo: replace text with mark + wordmark ─────────────────────── */
+  /* ── Header logo: swap to PNG ───────────────────────────────────────────── */
   function installHeaderLogo() {
     document.querySelectorAll('.header__heading-link').forEach(function (link) {
-      if (link.dataset.tlLogo === '1') return;
-      // Drop existing children (image, h2 text), inject mark + wordmark
-      link.dataset.tlLogo = '1';
-      link.innerHTML =
-        '<span class="tl-mark">' + BRAND_MARK_SVG + '</span>' +
-        '<span class="tl-word">Talven</span>';
+      if (link.dataset.tlLogo === '2') return;
+      link.dataset.tlLogo = '2';
+      link.innerHTML = '<img class="tl-logo" src="' + LOGO_URL +
+                       '?v=20260428b" alt="Talven" />';
     });
+  }
+
+  /* ── Favicon: remove all existing icon links, inject ours ─────────────── */
+  function installFavicon() {
+    if (document.documentElement.dataset.tlFavicon === '1') return;
+    document.documentElement.dataset.tlFavicon = '1';
+    var head = document.head;
+    if (!head) return;
+    head.querySelectorAll('link[rel*="icon"]').forEach(function (l) {
+      l.parentNode && l.parentNode.removeChild(l);
+    });
+    var l1 = document.createElement('link');
+    l1.rel = 'icon';
+    l1.type = 'image/png';
+    l1.href = FAVICON_URL + '?v=20260428b';
+    head.appendChild(l1);
+    var l2 = document.createElement('link');
+    l2.rel = 'shortcut icon';
+    l2.type = 'image/png';
+    l2.href = FAVICON_URL + '?v=20260428b';
+    head.appendChild(l2);
+    var l3 = document.createElement('link');
+    l3.rel = 'apple-touch-icon';
+    l3.href = FAVICON_URL + '?v=20260428b';
+    head.appendChild(l3);
   }
 
   /* ── Mobile sticky ATC bar ──────────────────────────────────────────────── */
@@ -401,12 +403,14 @@
 
   /* ── Init ───────────────────────────────────────────────────────────────── */
   injectCSS();
+  installFavicon();
   installHeaderLogo();
   fixTitleTag();
   markStandaloneProducts();
 
   document.addEventListener('DOMContentLoaded', function () {
     injectCSS();
+    installFavicon();
     installHeaderLogo();
     fixTitleTag();
     markStandaloneProducts();

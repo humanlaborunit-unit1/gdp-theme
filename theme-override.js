@@ -20,28 +20,30 @@
        Theme handles base colors. This supplements.
     ══════════════════════════════════════════════════════ */
 
-    /* ── Header brand lock-up (PNG logo) ── */
+    /* ── Header brand lock-up (PNG logo) — bigger ── */
     .header__heading-logo-wrapper { display: none !important; }
     .header__heading-link .h2 { font-size: 0 !important; }
     .header__heading-link {
       display: inline-flex !important;
       align-items: center !important;
       text-decoration: none !important;
-      padding: 8px 0 !important;
+      padding: 12px 0 !important;
     }
     .tl-logo {
       display: block;
-      height: 48px;
+      height: 64px;
       width: auto;
-      max-width: 220px;
+      max-width: 260px;
       object-fit: contain;
     }
     @media (min-width: 750px) {
-      .tl-logo { height: 60px; max-width: 280px; }
+      .tl-logo { height: 88px; max-width: 360px; }
     }
     @media (min-width: 1100px) {
-      .tl-logo { height: 70px; max-width: 320px; }
+      .tl-logo { height: 110px; max-width: 440px; }
     }
+    /* Increase the header padding so the bigger logo has breathing room */
+    .header { padding-top: 12px !important; padding-bottom: 12px !important; }
 
     /* ── Primary CTA — rose-gold gradient ── */
     .button--primary,

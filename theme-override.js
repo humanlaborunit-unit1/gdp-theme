@@ -116,6 +116,22 @@
     /* Header stays cream too so the logo blends seamlessly */
     .shopify-section-group-header-group .header-wrapper,
     .header-wrapper { background-color: #FBF7F2 !important; }
+    /* ── Announcement bar — dark contrast so text is legible ── */
+    .announcement-bar,
+    .announcement-bar-section,
+    .utility-bar,
+    .shopify-section-group-header-group .announcement-bar {
+      background-color: #1F1A18 !important;
+      color: #FBF7F2 !important;
+    }
+    .announcement-bar *,
+    .announcement-bar a,
+    .announcement-bar span,
+    .announcement-bar p,
+    .announcement-bar__message,
+    .utility-bar * {
+      color: #FBF7F2 !important;
+    }
 
     /* ── Mobile sticky ATC ── */
     #sgp-sticky-bar {

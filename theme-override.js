@@ -9,9 +9,10 @@
 (function () {
   'use strict';
 
-  /* ── Talven brand assets (PNG hosted via jsDelivr CDN) ──────────────────── */
+  /* ── Talven brand assets (PNG hosted via jsDelivr CDN, pinned commit) ──── */
+  var CDN_PINNED = 'https://cdn.jsdelivr.net/gh/humanlaborunit-unit1/gdp-theme@eb1c56e';
   var CDN = 'https://cdn.jsdelivr.net/gh/humanlaborunit-unit1/gdp-theme@main';
-  var LOGO_URL = CDN + '/talven-logo.png';
+  var LOGO_URL = CDN_PINNED + '/talven-logo.png?v=transparent';
   var FAVICON_URL = CDN + '/favicon.png';
 
   var CSS = `

@@ -106,16 +106,15 @@
       border-radius: 12px !important;
     }
 
-    /* ── Single-product standalone pages: hide nav, keep cart ── */
-    body.standalone-template header-drawer,
-    body.standalone-template .header-drawer,
-    body.standalone-template .list-menu,
-    body.standalone-template [role="navigation"] .list-menu,
-    body.standalone-template header-search { display: none !important; }
-    body.standalone-template .header__heading-link[href="/"] {
-      cursor: default; pointer-events: none;
-    }
-    body.standalone-template .header__icon--cart { display: block !important; }
+    /* ── Universal cream background — eliminate white chunks between sections ── */
+    body { background-color: #FBF7F2 !important; }
+    .color-background-1, .color-scheme-1,
+    .gradient { background-color: #FBF7F2 !important; }
+    .multicolumn { background-color: #FBF7F2 !important; }
+    .collapsible-content { background-color: #FBF7F2 !important; }
+    /* Header stays cream too so the logo blends seamlessly */
+    .shopify-section-group-header-group .header-wrapper,
+    .header-wrapper { background-color: #FBF7F2 !important; }
 
     /* ── Mobile sticky ATC ── */
     #sgp-sticky-bar {
